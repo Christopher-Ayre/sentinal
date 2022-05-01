@@ -6,8 +6,9 @@ class Coin:
         self.tweets = []
 
     def add_tweet(self,tweet):
-        self.tweets.append(tweet)
-        self.calc_favour()
+        if tweet not in self.tweets:
+            self.tweets.append(tweet)
+            self.calc_favour()
 
     def calc_favour(self):
         favour = 0.0

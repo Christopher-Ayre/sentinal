@@ -8,6 +8,7 @@ from Tweet import Tweet
 from Coin import Coin
 import string
 from progress_bar import printProgressBar
+import re
 
 def get_users_tweets(username, limit):
     #Use snscrape to get the last <limit> tweets from the <user>
@@ -18,7 +19,7 @@ def get_users_tweets(username, limit):
 
     for line in lines:
         data = json.loads(line)
-        tweets.append(Tweet(datetime.fromisoformat(data['date']),data['renderedContent'].replace('&amp;','and')))
+        tweets.append(Tweet(datetime.fromisoformat(data['date']),data['content'].replace('&amp;','and')))
 
     return tweets
 
@@ -32,12 +33,12 @@ def match_tweets_to_coins(tweets,coins):
         # Update Progress Bar
         printProgressBar(i + 1, l, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
-        #Remove commas from message
-        clean_message = tweet.message.translate(str.maketrans('','',','))
+        #Remove punctuation from message
+        clean_message = re.sub('[.,@"!?\\-]','',tweet.message)
         for coin in coins:
             #Search word for word in the message looking for our coin
             for word in clean_message.split():
-                if word == coin.symbol:
+                if word == coin.symbol or word == coin.name:
                     coin.add_tweet(tweet)
 
 #COULD ALSO WRITE ANOTHER FUNCTION THAT GETS A MANUAL COIN FILE TO AVOID THE STUPID MATCHES
