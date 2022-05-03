@@ -21,6 +21,7 @@ Run the install script, it will create a virtualenv and install all the needed m
 ./run.sh elonmusk 10
 #Output:
 Scraping, 100 results so far
+Scraped 145 tweets from user
 Read 7 coins from resources/Whitelist
 Matching Tweets to Coins:
 RESULTS:

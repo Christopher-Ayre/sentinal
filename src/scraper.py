@@ -28,7 +28,7 @@ def get_user_tweets_since(username, time):
     os.system('snscrape --jsonl --progress --since ' + str(time) + ' twitter-user ' + username + ' > user-tweets.json')
     with open('user-tweets.json') as f:
         lines = f.readlines()
-
+    print('Scraped {0} tweets from user'.format(len(lines)))
     for line in lines:
         data = json.loads(line)
         #Remove timezone from string
