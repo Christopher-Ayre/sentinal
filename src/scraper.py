@@ -2,15 +2,13 @@ import os
 import json
 from bs4 import BeautifulSoup
 import requests
-import time
 from datetime import datetime
 from Tweet import Tweet
 from Coin import Coin
 import string
-from progress_bar import printProgressBar
 import re
 
-def get_users_tweets(username, limit):
+def get_x_user_tweets(username, limit):
     #Use snscrape to get the last <limit> tweets from the <user>
     tweets = []
     os.system('snscrape --jsonl --progress --max-results ' + str(limit) + ' twitter-user ' + username + ' > user-tweets.json')
@@ -23,16 +21,27 @@ def get_users_tweets(username, limit):
 
     return tweets
 
+def get_user_tweets_since(username, time):
+    #Use snscrape to get tweets since <limit> from the <user>
+    tweets = []
+    os.system('snscrape --jsonl --progress --since ' + str(time) + ' twitter-user ' + username + ' > user-tweets.json')
+    with open('user-tweets.json') as f:
+        lines = f.readlines()
+
+    for line in lines:
+        data = json.loads(line)
+        #Remove timezone from string
+        date_string = data['date'].split('+')[0] 
+        date = datetime.strptime(date_string,'%Y-%m-%dT%H:%M:%S')
+        tweets.append(Tweet(date,data['content'].replace('&amp;','and')))
+
+    return tweets
+
 def match_tweets_to_coins(tweets,coins):
     print('Matching Tweets to Coins:')
-    # Initial call to print 0% progress
-    l = len(tweets)
-    printProgressBar(0, l, prefix = 'Progress:', suffix = 'Complete', length = 50)
+   
     #Seperate out only the tweets that contain our coin
     for i, tweet in enumerate(tweets):
-        # Update Progress Bar
-        printProgressBar(i + 1, l, prefix = 'Progress:', suffix = 'Complete', length = 50)
-
         #Remove punctuation from message
         clean_message = re.sub('[.,@"!?\\-]','',tweet.message)
         for coin in coins:

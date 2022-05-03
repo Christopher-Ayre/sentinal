@@ -14,5 +14,6 @@ class Coin:
         favour = 0.0
         for tweet in self.tweets:
             favour += tweet.sentiment
+            favour = favour/len(self.tweets)
 
         self.favour = favour

@@ -3,9 +3,11 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 class Tweet:
     def __init__(self, date, message):
-        self.date = date
-        message = message.replace('“','"') #Get rid of this shit
+        #Remove the annoying stylized quote marks and replace them with regular ones
+        message = message.replace('“','"') 
         message = message.replace('”','"')
+        
+        self.date = date
         self.message = message
         self.sentiment = self.__calc_sentiment()
 
