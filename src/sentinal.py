@@ -8,11 +8,10 @@ import string
 
 if __name__ == '__main__':
 
-    if len(sys.argv) != 2:
-        print("Invalid Arguments, please give <TwitterHandle> <ScrapeLimit>")
+    if len(sys.argv) != 3:
+        print("Invalid Arguments, please give <TwitterHandle> <SinceDate>")
     else:
-        #tweets = scraper.get_x_user_tweets(sys.argv[1],int(sys.argv[2]))
-        date_limit = date.today() - timedelta(days=3)
+        date_limit = date.today() - timedelta(days=int(sys.argv[2]))
         tweets = scraper.get_user_tweets_since(sys.argv[1], date_limit)
 
         if tweets:

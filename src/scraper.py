@@ -23,6 +23,7 @@ def get_x_user_tweets(username, limit):
 
 def get_user_tweets_since(username, time):
     #Use snscrape to get tweets since <limit> from the <user>
+    print('Getting tweets from @{0} since {1}'.format(username,time))
     tweets = []
     os.system('snscrape --jsonl --progress --since ' + str(time) + ' twitter-user ' + username + ' > user-tweets.json')
     with open('user-tweets.json') as f:

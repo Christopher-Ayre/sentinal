@@ -17,8 +17,15 @@ Run the install script, it will create a virtualenv and install all the needed m
 ## Usage
 
 ```bash
-# Arguments are someones twitter handle and the amount of tweets to look through.
-./run.sh elonmusk 1000
+# Arguments are someones twitter handle and the number of days tweets to look through.
+./run.sh elonmusk 10
+#Output:
+Scraping, 100 results so far
+Read 7 coins from resources/Whitelist
+Matching Tweets to Coins:
+RESULTS:
+BTC : 0.4588
+	01/05/2022,06:51:38 : 0.4588
 ```
 
 ## Contributing
